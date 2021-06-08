@@ -2,29 +2,29 @@ package org.example.TobeSpringStudy.controller;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
+
+import javax.sql.DataSource;
 
 @Configuration
 public class DaoFactory {
 
     @Bean
-    public UserDao userDao{
-        return new UserDao(connectionMaker());
+    public DataSource dataSource(){
+        SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
+
+        dataSource.setDriverClass(com.mysql.jdbc.Driver.class);
+        dataSource.setUrl("jdbc:mysql://localhost/springbook");
+        dataSource.setUsername("root");
+        dataSource.setPassword("********");
+
+        return dataSource;
     }
 
     @Bean
-    public UserDao userDao{
+    public UserDao userDao(){
         UserDao userDao = new UserDao();
-        userDao.setConnectionMaker(connectionMaker());
-        return return userDao;
-    }
-
-    @Bean
-    public ConnectionMaker connectionMaker(){
-        return new DConnectionMaker();
-    }
-
-    @Bean
-    public ConnectionMaker connectionMaker(){
-        return new LocalConnectionMaker();
+        userDao.setDataSource(dataSource());
+        return userDao();
     }
 }
