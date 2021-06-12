@@ -1,21 +1,32 @@
 import org.example.TobeSpringStudy.controller.User;
 import org.example.TobeSpringStudy.controller.UserDao;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.GenericXmlApplicationContext;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import java.sql.SQLException;
 
 public class UserDaoTest {
+    private UserDao dao;
+    private User user1;
+    private User user2;
+    private User user3;
+
+    @Before
+    public void setUP(){
+        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        this.dao = context.getBean("userDao", UserDao.class);
+        this.user1= new User("!234", "!234", "!234");
+        this.user2 = new User("!234", "!234", "!234");
+        this.user3 = new User("!234", "!234", "!234");
+    }
 
     @Test
     public void addAndGet() throws SQLException {
-        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-
-        UserDao dao = context.getBean("userDao", UserDao.class);
-        User user1= new User("!234", "!234", "!234");
-        User user2 = new User("!234", "!234", "!234");
 
         dao.deleteAll();
         assertThat(dao.getCount(), is(0));
@@ -35,13 +46,6 @@ public class UserDaoTest {
 
     @Test
     public void count() throws SQLException {
-        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-
-        UserDao dao = context.getBean("userDao", UserDao.class);
-
-        User user1= new User("!234", "!234", "!234");
-        User user2 = new User("!234", "!234", "!234");
-        User user3 = new User("!234", "!234", "!234");
 
         dao.deleteAll();
         assertThat(dao.getCount(), is(0));
@@ -55,5 +59,13 @@ public class UserDaoTest {
         dao.add(user3);
         assertThat(dao.getCount(), is(3));
 
+    }
+
+    @Test(expected= EmptyResultDataAccessException.class)
+    public void getUserFailure() throws SQLException{
+        dao.deleteAll();
+        assertThat(dao.getCount(), is(0));
+
+        dao.get("unknown_id");
     }
 }
