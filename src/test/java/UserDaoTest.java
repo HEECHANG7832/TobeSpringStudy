@@ -2,24 +2,31 @@ import org.example.TobeSpringStudy.controller.User;
 import org.example.TobeSpringStudy.controller.UserDao;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.sql.SQLException;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations="/test-applicationContext.xml")
 public class UserDaoTest {
-    private UserDao dao;
+
     private User user1;
     private User user2;
     private User user3;
 
+    @Autowired
+    private UserDao dao;
+
     @Before
     public void setUP(){
-        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-        this.dao = context.getBean("userDao", UserDao.class);
         this.user1= new User("!234", "!234", "!234");
         this.user2 = new User("!234", "!234", "!234");
         this.user3 = new User("!234", "!234", "!234");
