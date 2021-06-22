@@ -8,7 +8,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.either;
+import static org.junit.matchers.JUnitMatchers.hasItem;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration

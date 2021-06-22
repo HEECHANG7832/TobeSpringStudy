@@ -1,18 +1,15 @@
-import org.example.TobeSpringStudy.controller.User;
-import org.example.TobeSpringStudy.controller.UserDao;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.sql.SQLException;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="/test-applicationContext.xml")
@@ -43,12 +40,12 @@ public class UserDaoTest {
         assertThat(dao.getCount(), is(2));
 
         User userget1 = dao.get(user1.getId());
-        assertThat(userget1.getName(), is(User1.getName()));
-        assertThat(userget1.getPassword(), is(User1.getPassword()));
+        assertThat(userget1.getName(), is(user1.getName()));
+        assertThat(userget1.getPassword(), is(user1.getPassword()));
 
         User userget2 = dao.get(user1.getId());
-        assertThat(userget2.getName(), is(User1.getName()));
-        assertThat(userget2.getPassword(), is(User1.getPassword()));
+        assertThat(userget2.getName(), is(user1.getName()));
+        assertThat(userget2.getPassword(), is(user1.getPassword()));
     }
 
     @Test

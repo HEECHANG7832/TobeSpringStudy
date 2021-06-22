@@ -1,5 +1,3 @@
-package org.example.TobeSpringStudy.controller;
-
 public class User {
     String id;
     String name;
