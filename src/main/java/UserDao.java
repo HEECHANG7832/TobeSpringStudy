@@ -6,10 +6,10 @@ import org.springframework.jdbc.core.RowMapper;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.List;
 
 public class UserDao {
 
-    private DataSource dataSource;
     private JdbcContext jdbcContext;
     private JdbcTemplate jdbcTemplate;
 
@@ -19,7 +19,6 @@ public class UserDao {
 
     public void setDataSource(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
-        this.dataSource = dataSource;
     }
 
     public void add(User user) throws ClassNotFoundException, SQLException{
@@ -42,7 +41,19 @@ public class UserDao {
 
     }
 
-    public void get
+    public List<User> getAll(){
+        return this.jdbcTemplate.query("select * from users order by id",
+                new RowMapper<User>(){
+                    public User mapRow(ResultSet rs, int rowNum)
+                            throws SQLException {
+                        User user = new User();
+                        user.setId(rs.getString("id"));
+                        user.setName(rs.getString("name"));
+                        user.setPassword(rs.getString("password"));
+                        return user;
+                    }
+                });
+    }
 
     public void deleteAll() throws SQLException{
         this.jdbcTemplate.update("delete from user_defined_type_schema; ");
