@@ -42,6 +42,8 @@ public class UserDao {
 
     }
 
+    public void get
+
     public void deleteAll() throws SQLException{
         this.jdbcTemplate.update("delete from user_defined_type_schema; ");
     }
