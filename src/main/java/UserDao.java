@@ -16,8 +16,16 @@ public class UserDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public void add(User user) throws ClassNotFoundException, SQLException{
-        this.jdbcTemplate.update("insert into users(id, name, password) values(?,?,?)", user.getId(), user.getName(), user.getPassword());
+    public void add(User user) throws DuplicateUserIdException, ClassNotFoundException, SQLException{
+        try {
+            this.jdbcTemplate.update("insert into users(id, name, password) values(?,?,?)", user.getId(), user.getName(), user.getPassword());
+        } catch (SQLException e) {
+            if(e.getErrorCode() == MysqlErrorNumbers.ER_DUP_ENTRY)
+                throw new DuplicateUserIdException(e);
+            else
+                throw new RuntimeException(e);
+        }
+
     }
 
     public User get(String id) throws ClassNotFoundException, SQLException{
